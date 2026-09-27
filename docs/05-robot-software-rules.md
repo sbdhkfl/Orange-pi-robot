@@ -1,34 +1,53 @@
-# 05 - Project Rules and Feature Set
+# 05 - Robot Software Rules
 
-## Required capabilities
+This is what the robot software is supposed to cover.
 
-- forward/back/left/right/stop
-- ultrasonic obstacle avoidance
-- USB-camera vision
-- face detection and known-person recognition
-- greeting known people
-- unknown-person photo/email alert when configured
-- object detection
-- object registration/teaching
-- local knowledge
+## Movement
+- Forward
+- Backward
+- Left
+- Right
+- Stop
+- 4WD motor control
+
+## Sensors
+- Ultrasonic obstacle detection
+- Safe motor stopping when an obstacle is too close
+
+## Vision
+- USB camera input
+- Face detection
+- Known-person recognition
+- Known-person greetings
+- Unknown-person picture capture
+- Object detection
+- Object registration/teaching
+
+## Assistant
+- Voice commands when the audio input hardware is available
+- Local/open-source AI features
+- Local knowledge
 - Internet search when Internet is available
-- commands directed toward detected objects
-- spoken responses
-- fan control
-- autonomous/patrol behaviors where configured
-- Arduino handles time-sensitive motor and sensor control
+- Commands about objects the camera can see
+- Audio responses
 
-## Architecture rule
+## Robot extras
+- Fan control
+- Autonomous movement
+- Patrol behavior
+- Configurable alerts
 
-Orange Pi = high-level intelligence, vision, audio, networking, storage.
+## How we split the work
+**Orange Pi:** vision, AI, networking, storage, audio, and the main robot program.
 
-Arduino Uno = real-time motor and sensor controller.
+**Arduino Uno:** motors, ultrasonic sensor, and other real-time control.
 
-This separation makes the robot easier to debug: if motors/sensors fail, test the Arduino side independently; if vision/AI fails, test the Orange Pi side independently.
+This makes debugging way easier because we can test the Orange Pi side and Arduino side separately.
 
-## Explicit exclusions
-
-- no OLED
-- no ESP32-CAM for vision
-- no controlling other ESP devices around the home
-- no required paid AI API
+## Project rules
+- Keep the important software open-source friendly
+- Do not require paid AI APIs
+- Do not put passwords or API keys in the repo
+- Make every hardware connection clear
+- Make every setup step copy-paste friendly
+- Test every feature before calling it finished
