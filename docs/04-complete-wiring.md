@@ -1,98 +1,101 @@
 # 04 - Complete Wiring
 
-## 1. Arduino Uno <-> Orange Pi
+This is the wiring plan we are using for the robot.
 
-The intended serial link is:
-
+## 1. Orange Pi <-> Arduino Uno
 | Orange Pi | Arduino Uno |
 |---|---|
 | TXD0 | RX0 / digital pin 0 |
 | RXD0 | TX1 / digital pin 1 |
 | GND | GND |
 
-**Important:** both devices must use compatible logic levels and a safe UART arrangement. Do not connect an incompatible voltage directly to a GPIO.
+Important: the voltage levels have to be safe for both boards. The Orange Pi GPIO side is 3.3V, so we use proper level shifting or another safe UART setup when needed.
 
-The Arduino remains responsible for time-sensitive motor/sensor control. The Orange Pi sends high-level commands.
+The Orange Pi sends high-level commands.
 
-## 2. Arduino + L293D motor shield + four motors
+The Arduino handles the fast motor and sensor work.
 
-The L293D shield is mounted on the Uno.
+## 2. Arduino + L293D shield + four motors
+Put the L293D shield on the Arduino Uno.
 
-- Motor 1 -> shield motor output A
-- Motor 2 -> shield motor output B
-- Motor 3 -> shield motor output C
-- Motor 4 -> shield motor output D
+Then connect the four motors to the four motor outputs on the shield.
 
-Use the motor shield's documented terminal labels for the exact output names. Motor polarity determines which direction each motor spins; if a motor runs backwards, swap that motor's two wires.
+- Motor 1 -> Motor output A
+- Motor 2 -> Motor output B
+- Motor 3 -> Motor output C
+- Motor 4 -> Motor output D
 
-**Do not power the four motors from the Orange Pi's 5V rail.** Use the motor-power input intended by the shield/chassis design and keep the control electronics at their required voltage.
+Use the labels printed on your exact shield for the final terminal names.
+
+If one motor spins the wrong way, swap that motor two wires.
+
+The motors get power from the motor power input. They do not get powered from an Orange Pi GPIO.
 
 ## 3. Ultrasonic sensor
+For a typical HC-SR04:
 
-Typical HC-SR04 wiring:
-
-| Sensor | Controller |
+| HC-SR04 | Arduino |
 |---|---|
 | VCC | 5V |
 | GND | GND |
-| TRIG | Arduino digital output selected by firmware |
-| ECHO | Arduino digital input selected by firmware |
+| TRIG | Arduino digital output used by the firmware |
+| ECHO | Arduino digital input used by the firmware |
 
-The exact digital pins are defined by the current Arduino firmware and must match its constants.
+The exact digital pins are whatever we define in the Arduino code. The wiring and code have to match.
 
-## 4. IR cliff sensor
+## 4. USB camera
+**USB camera -> Orange Pi USB port**
 
-| Sensor | Arduino |
-|---|---|
-| VCC | 5V or the sensor's rated voltage |
-| GND | GND |
-| OUT | Arduino digital input selected by firmware |
+The camera talks directly to the Orange Pi.
 
-If the sensor is removed from the final build, its code and wiring are disabled rather than left ambiguous.
+Linux/OpenCV handles the camera.
 
-## 5. USB camera
-
-USB camera -> Orange Pi USB port.
-
-The camera is **not** connected to the Arduino.
-
-The Orange Pi uses Linux V4L2/OpenCV to read the camera.
-
-## 6. MP3/audio module
-
-The intended Orange Pi UART/audio connection is:
+## 5. MP3/audio module
+The planned UART connection is:
 
 | Orange Pi | Audio module |
 |---|---|
 | TXD2 | RX |
 | RXD2 | TX |
-| 5V | VCC, only if the module requires 5V |
+| 5V | VCC, only when the module requires 5V |
 | GND | GND |
 
-UART TX/RX are crossed.
+TX and RX cross over.
 
-The audio module drives the speaker according to its electrical requirements. If an amplifier is used, wire the module's audio output to the amplifier input and the amplifier output to the speaker.
+If the audio module needs an amplifier for the speaker, the audio path is:
 
-## 7. Fan
+**Audio module -> amplifier -> speaker**
 
-The fan must not be driven directly from an Orange Pi GPIO. The final circuit should use a suitable transistor/MOSFET driver and flyback protection when required by the fan type.
+## 6. Fan
+The fan should be controlled through a proper transistor/MOSFET driver circuit.
 
-The Orange Pi/Arduino controls the driver; the fan gets power from its appropriate supply.
+Do not connect a fan directly to an Orange Pi GPIO.
 
-## 8. Ground
+The GPIO controls the driver, and the driver controls the fan power.
 
-Where the design requires signals between subsystems, establish the required common ground. Keep high-current motor wiring physically separated from sensitive signal wiring where practical.
+## 7. Power
+Keep the power setup simple:
+- Orange Pi gets its own stable power
+- Arduino/control electronics get the correct power
+- Motors get the motor power they need
+- Audio hardware gets its required power
+- Grounds are connected where the signal design requires a common reference
 
-## 9. Power architecture
+Try to keep high-current motor wires away from sensitive signal wires.
 
-Use separate appropriate power paths for:
-- Orange Pi
-- Arduino/control electronics
-- motors
-- audio hardware
+## 8. The wiring order
+Do not wire everything and then try to debug it all at once.
 
-Tie grounds together only where required for signal reference.
+Do it like this:
+1. Orange Pi power
+2. Arduino power
+3. UART
+4. L293D shield
+5. One motor
+6. All four motors
+7. Ultrasonic sensor
+8. USB camera
+9. Audio
+10. Fan
 
-## 10. Removed hardware
-
-There is no OLED wiring in this project and no ESP32-CAM vision wiring.
+After every step, test it before moving on.
