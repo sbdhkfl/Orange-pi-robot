@@ -84,4 +84,4 @@ Also, the motors get their power through the motor driver, not from an Orange Pi
 Do not put Wi-Fi passwords, email passwords, API keys, or other private information into the GitHub repo.
 
 ## Run in VS Code
-Open this repository in VS Code **on the Orange Pi** (or use VS Code Remote SSH). Install the recommended Python extension, run **Robot: install dependencies**, then press **F5** and choose **Run Orange Pi Robot**. The robot needs its hardware connected for the hardware run.
+Open this repository in VS Code on the Orange Pi (or use VS Code Remote SSH). Run python run.py. Chrome opens the simple robot dashboard automatically. The existing hardware program and wiring remain separate so the browser interface does not make the robot setup harder.
