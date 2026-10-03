@@ -1,0 +1,1 @@
+{"version":"0.2.0","configurations":[{"name":"Run Orange Pi Robot","type":"debugpy","request":"launch","program":"${workspaceFolder}/robot/main.py","console":"integratedTerminal","cwd":"${workspaceFolder}"}]}
