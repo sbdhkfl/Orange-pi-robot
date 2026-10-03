@@ -1,0 +1,1 @@
+{"version":"2.0.0","tasks":[{"label":"Robot: install dependencies","type":"shell","command":"python3 -m pip install -r robot/requirements.txt","problemMatcher":[]},{"label":"Robot: run on Orange Pi","type":"shell","command":"python3 robot/main.py","problemMatcher":[]},{"label":"Robot: syntax check","type":"shell","command":"python3 -m compileall robot","problemMatcher":[]}]}
