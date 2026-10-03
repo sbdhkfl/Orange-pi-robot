@@ -104,3 +104,12 @@ The dashboard is only the easy user interface. The existing Arduino, motor-drive
 For hardware development, the terminal and normal Python tools are still available when needed.
 
 **Important:** never connect motors directly to Orange Pi GPIO pins. Keep the existing power and motor-driver wiring rules in the hardware documentation.
+
+## Simple one-start workflow
+
+On the Orange Pi, use the included start.sh:
+
+./start.sh
+
+It installs the Python requirements when needed and starts the browser dashboard. The robot hardware still must be connected to the Orange Pi as described in the hardware section.
+
