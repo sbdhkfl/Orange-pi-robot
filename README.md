@@ -85,3 +85,22 @@ Do not put Wi-Fi passwords, email passwords, API keys, or other private informat
 
 ## Run in VS Code
 Open this repository in VS Code on the Orange Pi (or use VS Code Remote SSH). Run python run.py. Chrome opens the simple robot dashboard automatically. The existing hardware program and wiring remain separate so the browser interface does not make the robot setup harder.
+
+
+## Browser mode
+
+The robot now has a simple Chrome dashboard so the project can be easier to use without turning the hardware setup into something complicated.
+
+### Start it
+
+On the Orange Pi, open this repository in VS Code and run:
+
+`python run.py`
+
+Chrome opens the robot dashboard automatically.
+
+The dashboard is only the easy user interface. The existing Arduino, motor-driver, sensor, camera, audio, and Orange Pi software remain separate so the hardware wiring stays simple.
+
+For hardware development, the terminal and normal Python tools are still available when needed.
+
+**Important:** never connect motors directly to Orange Pi GPIO pins. Keep the existing power and motor-driver wiring rules in the hardware documentation.
